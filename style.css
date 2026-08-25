@@ -1,0 +1,18 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+#retangulo {
+    width: 200px;
+    height: 100px;
+    background-color: lightyellow; /* Amarelo claro inicial */
+    border: 1px solid #000;
+    margin-top: 15px;
+}
+
+#mensagemErro {
+    color: red;
+    font-weight: bold;
+    margin-left: 10px;
+}
