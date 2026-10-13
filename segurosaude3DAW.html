@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Seguro Saúde</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">Cálculo de Seguro Saúde</h2>
+
+        <form id="seguroForm" class="space-y-4">
+            <!-- Nome -->
+            <div>
+                <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome:</label>
+                <input type="text" id="nome" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Faixa Etária -->
+            <div>
+                <label for="faixa" class="block text-sm font-medium text-gray-700 mb-1">Faixa Etária:</label>
+                <select id="faixa" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="0">20 anos ou menos</option>
+                    <option value="1">21 a 30 anos</option>
+                    <option value="2">31 a 40 anos</option>
+                    <option value="3">41 a 50 anos</option>
+                    <option value="4">51 a 65 anos</option>
+                    <option value="5">66 anos ou mais</option>
+                </select>
+            </div>
+
+            <!-- Doença Prévia -->
+            <div class="flex items-center">
+                <input type="checkbox" id="doenca" 
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                <label for="doenca" class="ml-2 block text-sm text-gray-700">
+                    Portador de doença prévia?
+                </label>
+            </div>
+
+            <!-- Botão de Calcular -->
+            <button type="button" onclick="calcularSeguro()"
+                class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mt-4">
+                Calcular
+            </button>
+        </form>
+
+        <!-- Resultado -->
+        <div id="resultado" class="mt-6 hidden p-4 bg-green-100 text-green-800 rounded-md">
+            <!-- O texto do resultado aparecerá aqui -->
+        </div>
+    </div>
+
+    <script>
+        function calcularSeguro() {
+            // Pegando os valores dos inputs
+            const nome = document.getElementById('nome').value;
+            const faixaIndex = parseInt(document.getElementById('faixa').value);
+            const temDoenca = document.getElementById('doenca').checked;
+            const resultadoDiv = document.getElementById('resultado');
+
+            // Validação simples
+            if (!nome) {
+                alert("Por favor, preencha o nome.");
+                return;
+            }
+
+            // Valor inicial (20 anos ou menos)
+            let valorSeguro = 200.00;
+
+            // A cada faixa encarece 50% sobre a anterior
+            for (let i = 0; i < faixaIndex; i++) {
+                valorSeguro += valorSeguro * 0.50; // ou valorSeguro *= 1.50
+            }
+
+            // Se tiver doença prévia, acrescenta 30% sobre o valor calculado da faixa
+            if (temDoenca) {
+                valorSeguro += valorSeguro * 0.30; // ou valorSeguro *= 1.30
+            }
+
+            // Formatando o valor para a moeda Real (R$)
+            const valorFormatado = valorSeguro.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // Exibindo o resultado
+            resultadoDiv.innerHTML = `<strong>Nome:</strong> ${nome} <br> <strong>Valor do Seguro:</strong> ${valorFormatado}`;
+            resultadoDiv.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
